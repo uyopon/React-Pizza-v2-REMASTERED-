@@ -276,7 +276,10 @@ a {
 .categories ul {
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex
+  display: flex;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+
 }
 
 .categories ul li {
@@ -376,12 +379,10 @@ a {
 .pizza-block {
   width: 280px;
   text-align: center;
-  margin-bottom: 65px
+  margin-bottom: 65px;
+  margin: 0 auto;
 }
 
-.pizza-block:not(:nth-of-type(4n)) {
-  margin-right: 3.7%
-}
 
 .pizza-block__image {
   width: 260px
@@ -445,7 +446,7 @@ a {
 
 .pizza-block__selector ul li.disabled {
   opacity: 0.4;
-  pointer-events :none;
+  pointer-events: none;
 }
 
 .pizza-block__bottom {
@@ -473,7 +474,7 @@ body {
 }
 
 .wrapper {
-  width: calc(100vw - 100px);
+  width: calc(100vw - 30px);
   height: 100%;
   background-color: #fff;
   margin: 50px auto;
@@ -490,14 +491,31 @@ body {
 }
 
 .content__items {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: flex-start
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 30px;
+  grid-row-gap: 0px;
+  grid-row-gap: 40px;
+}
+@media (max-width: 1400px) {
+  .content__items {grid-template-columns: repeat(3, 1fr);}
+  
+  
+}
+@media (max-width: 1200px) {
+  .content__items {grid-template-columns: repeat(2, 1fr);}
+  
+}
+@media (max-width: 1260px) {
+  .content__top{flex-direction: column;}
+  
+}
+
+@media (max-width: 740px) {
+  .content__items {grid-template-columns: repeat(1, 1fr);}
+   
 }
 
 .content__top {
@@ -842,10 +860,15 @@ body {
 }
 
 .x {
--webkit-touch-callout: none; /* iOS Safari */
--webkit-user-select: none;   /* Chrome/Safari/Opera */
--khtml-user-select: none;    /* Konqueror */
--moz-user-select: none;      /* Firefox */
--ms-user-select: none;       /* Internet Explorer/Edge */
-user-select: none; 
-} 
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Chrome/Safari/Opera */
+  -khtml-user-select: none;
+  /* Konqueror */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+}
