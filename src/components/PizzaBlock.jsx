@@ -5,19 +5,19 @@ const typeNames = ['тонкое','традиционное']
 
 function PizzaBlock({imageUrl, title,price,sizes,types}) {
 
-    const [activeSize,SetActiveSize]= React.useState(0)
-    const [activeType,SetActiveType]= React.useState(types[0])
+    const [activeSize,setActiveSize]= React.useState(0)
+    const [activeType,setActiveType]= React.useState(types[0])
 
-    console.log(activeType)
+    
 
 
 
     const onClickSize = (index)=>{
-        SetActiveSize(index)
+        setActiveSize(index)
     }
 
     const onClickType = (index)=>{
-        SetActiveType(index)
+        setActiveType(index)
     }
 
 
