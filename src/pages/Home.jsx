@@ -7,20 +7,23 @@ import PizzaBlock from '../components/PizzaBlock'
 
 
 function Home() {
-  const [pizzas,setPizzas]= React.useState([])
-  const [isLoading,setIsLoading]= React.useState(true)
+  const [pizzas, setPizzas] = React.useState([])
+  const [isLoading, setIsLoading] = React.useState(true)
 
-  React.useEffect(()=>{
-  fetch('https://637cafc572f3ce38eaaa7e31.mockapi.io/items').then(
-    (resp)=>resp.json()).then(
-    (arr)=>{setPizzas(arr)
-    setIsLoading(false)})
+  React.useEffect(() => {
+    fetch('https://637cafc572f3ce38eaaa7e31.mockapi.io/items').then(
+      (resp) => resp.json()).then(
+        (arr) => {
+          setPizzas(arr)
+          setIsLoading(false)
+        })
+    window.scrollTo(1, 1)
 
-},[])
+  }, [])
 
 
   return (
-    <>
+    <div className="container">
 
       <div className="content__top">
         <Categories />
@@ -34,8 +37,7 @@ function Home() {
 
 
       </div>
-    </>
-
+    </div>
 
   )
 }
