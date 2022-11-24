@@ -7,10 +7,12 @@ import { Routes, Route } from 'react-router-dom';
 
 function App() {
 
+  const [searchValue,SetSearchValue] = React.useState('')
+
   return (
 
     <div className="wrapper">
-      <Header />
+      <Header searchValue={searchValue} SetSearchValue={SetSearchValue}/>
 
       <div className="content">
         

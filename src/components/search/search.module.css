@@ -1,15 +1,22 @@
 
-.root {
-    
+/* .root{
+    left: -50px;
+
+} */
+
+.input{
+
     position: static;
     left: -120px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     padding: 12px 20px;
-    padding-left: 42px;
+    /* padding-left: 42px; */
     width: 300px;
     border-radius: 10px;
-    font-size: 16px;
-    margin: 30px  auto;
+    font-size: 20px;
+    margin: 30px 90px  auto;
+   
+    
     /* margin-right: 80px;
     margin-bottom: 30px;
     margin-top: 30px; */
@@ -17,6 +24,7 @@
   
 
 }
+.input:focus{border: 1px solid rgba(0, 0, 0, 0.2)}
 
 
 /* .input:focus {

@@ -266,12 +266,16 @@ a {
 
 .button--cart svg {
   margin-right: 8px;
-  margin-bottom: 1px
+  margin-bottom: 1px;
+  
+  right: 0;
 }
 
 .button--cart span {
+
   font-weight: 600;
-  font-size: 16px
+  font-size: 16px;
+
 }
 
 .categories ul {
@@ -502,7 +506,7 @@ body {
   
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   .header .container {flex-direction: column;}
   
   

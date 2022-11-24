@@ -4,8 +4,8 @@ import styles from './search.module.css'
 
 function Search() {
   return (
-    <div>
-        <input className= {styles.root} placeholder='поиск пиццы...'/>
+    <div className= {styles.root}>
+        <input className= {styles.input} placeholder='поиск пиццы...'/>
     </div>
     
   )
