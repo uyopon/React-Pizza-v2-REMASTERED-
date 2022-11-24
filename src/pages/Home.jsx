@@ -4,8 +4,6 @@ import SortPopup from '../components/SortPopup'
 import LoadingBlock from '../components/LoadingBlock'
 import PizzaBlock from '../components/PizzaBlock'
 
-
-
 function Home() {
   const [pizzas, setPizzas] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(true)
@@ -14,15 +12,17 @@ function Home() {
 
   const [sortType,setSortType]= React.useState({name: 'популярности',sortProperty: 'rating'})
 
-  
-
 
   React.useEffect(() => {
     setIsLoading(true)
     const order =sortType.sortProperty.includes('-') ? 'desc' : 'asc'
     const sortBy = sortType.sortProperty.replace('-','')
     const category =  categoryId > 0 ? `category=${categoryId}` : ''
+    //https://637cafc572f3ce38eaaa7e31.mockapi.io/items?category=1&sortBy=rating&order=asc = пример
+
     fetch(`https://637cafc572f3ce38eaaa7e31.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order} `).then(
+     
+
       (resp) => resp.json()).then(
         (arr) => {
           setPizzas(arr)
@@ -46,8 +46,7 @@ function Home() {
       <div className="content__items">
 
         {isLoading ? [...new Array(4)].map((_, index) => <LoadingBlock key={index} />) : pizzas.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
-
-
+        
       </div>
     </div>
 

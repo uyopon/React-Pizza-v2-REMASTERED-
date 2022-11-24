@@ -7,13 +7,6 @@ const categories = ['Все','Мясные','Вегетарианская','Гр
 function Categories({onClickCategory,categoryId}) {
 
     
-
-    // const onClickCategory = (index)=>{
-    //     setCategory(index)
-
-    // }
-
-
     return (
         <div className="categories">
             <ul>
