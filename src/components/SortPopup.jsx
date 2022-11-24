@@ -7,9 +7,15 @@ function SortPopup({sortType, onClickName}) {
     const [open,setOpen]= React.useState(false)
 
     const names = [
-        {name: 'популярности',sortProperty: 'rating'},
-        {name: 'цене',sortProperty: 'price'},
-        {name: 'алфавиту',sortProperty: 'title'}]
+        {name: 'популярности (ASC)',sortProperty: '-rating'},
+        {name: 'популярности (DESC)',sortProperty: 'rating'},
+        {name: 'цене (ASC)',sortProperty: '-price'},
+        {name: 'цене (DESC)',sortProperty: 'price'},
+        {name: 'алфавиту (ASC)',sortProperty: 'title'},
+        {name: 'алфавиту (DESC)',sortProperty: '-title'}
+    ]
+
+
     
 
     const onClickName2= (obj)=> {

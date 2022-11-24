@@ -14,12 +14,15 @@ function Home() {
 
   const [sortType,setSortType]= React.useState({name: 'популярности',sortProperty: 'rating'})
 
-  console.log(categoryId,sortType ) 
+  
 
 
   React.useEffect(() => {
     setIsLoading(true)
-    fetch('https://637cafc572f3ce38eaaa7e31.mockapi.io/items' ).then(
+    const order =sortType.sortProperty.includes('-') ? 'desc' : 'asc'
+    const sortBy = sortType.sortProperty.replace('-','')
+    const category =  categoryId > 0 ? `category=${categoryId}` : ''
+    fetch(`https://637cafc572f3ce38eaaa7e31.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order} `).then(
       (resp) => resp.json()).then(
         (arr) => {
           setPizzas(arr)
