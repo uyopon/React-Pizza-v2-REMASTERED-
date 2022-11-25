@@ -1,12 +1,9 @@
-
-/* .root{
-    left: -50px;
-
-} */
+.root {
+    position: relative;
+    left: -150px;
+}
 
 .input{
-
-    position: static;
     left: -120px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     padding: 12px 20px;
@@ -14,22 +11,10 @@
     width: 300px;
     border-radius: 10px;
     font-size: 20px;
-    margin: 30px 90px  auto;
-   
-    
-    /* margin-right: 80px;
-    margin-bottom: 30px;
-    margin-top: 30px; */
-    
-  
+    margin: 20px 0px  auto;
+    margin-bottom: 30px;}
 
-}
 .input:focus{border: 1px solid rgba(0, 0, 0, 0.2)}
-
-
-/* .input:focus {
-    border: 1px solid rgba(0, 0, 0, 0.2);
-}
 
 .clearIcon {
     width: 18px;
@@ -37,9 +22,27 @@
     opacity: 0.3;
     position: absolute;
     right: 15px;
-    top: 15px;
-    cursor: pointer;
-}
-.clearIcon:hover {
+    top: 35px;
+    cursor: pointer;}
+    
+.input:hover{    
     opacity: 0.8;
-} */
+  } 
+  
+  .clearIcon:hover{    
+    opacity: 0.8;
+  } 
+
+@media (max-width: 1160px) {
+    .root{left: -0px;}
+    
+}
+/* 
+//static. Это значение position по умолчанию: статичные элементы просто следуют естественному потоку.
+ Любые значения left, right, top или bottom не оказывают влияния. */
+
+
+/* 
+Относительное позиционирование сдвигает элемент относительно его обычного положения.
+ Для того, чтобы применить относительное позиционирование,
+  необходимо указать элементу CSS-свойство position: relative и координаты left/right/top/bottom . Заголовок сдвинут на 10px вниз. */

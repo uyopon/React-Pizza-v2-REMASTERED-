@@ -254,6 +254,7 @@ a {
 }
 
 .button--cart {
+  position:  static;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -261,12 +262,14 @@ a {
   -ms-flex-align: center;
   align-items: center;
   line-height: 23px;
-  padding: 12px 25px
+  padding: 12px 25px;
+  
 }
 
 .button--cart svg {
   margin-right: 8px;
   margin-bottom: 1px;
+  position:relative;
   
   right: 0;
 }

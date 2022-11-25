@@ -9,6 +9,8 @@ function App() {
 
   const [searchValue,SetSearchValue] = React.useState('')
 
+  
+
   return (
 
     <div className="wrapper">
@@ -19,7 +21,7 @@ function App() {
 
 
           <Routes>
-            <Route path='/' element={<Home />} />
+            <Route path='/' element={<Home searchValue={searchValue}/>} />
             <Route path='cart' element={<Cart />} />
             <Route path='*' element={<NotFound />} />
           </Routes>

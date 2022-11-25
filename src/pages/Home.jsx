@@ -4,13 +4,14 @@ import SortPopup from '../components/SortPopup'
 import LoadingBlock from '../components/LoadingBlock'
 import PizzaBlock from '../components/PizzaBlock'
 
-function Home() {
-  const [pizzas, setPizzas] = React.useState([])
-  const [isLoading, setIsLoading] = React.useState(true)
+function Home({searchValue}) {
+  const [pizzas, setPizzas] = React.useState([]) //пиццы с сервера
+  const [isLoading, setIsLoading] = React.useState(true) //скелетон
 
-  const [categoryId,setCategoryId]= React.useState(0)
+  
+  const [categoryId,setCategoryId]= React.useState(0) //филтер дл запроса
 
-  const [sortType,setSortType]= React.useState({name: 'популярности',sortProperty: 'rating'})
+  const [sortType,setSortType]= React.useState({name: 'популярности',sortProperty: 'rating'})//филтер дл запроса
 
 
   React.useEffect(() => {
@@ -32,6 +33,14 @@ function Home() {
 
   }, [categoryId,sortType])
 
+  const items = pizzas.filter((obj)=>
+  {
+      if(obj.title.toLowerCase().includes(searchValue.toLowerCase())){return true}
+      return false
+  }
+
+      ).map((obj) => <PizzaBlock key={obj.id} {...obj} />)
+
 
   return (
     <div className="container">
@@ -45,7 +54,9 @@ function Home() {
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
 
-        {isLoading ? [...new Array(4)].map((_, index) => <LoadingBlock key={index} />) : pizzas.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
+
+
+        {isLoading ? [...new Array(4)].map((_, index) => <LoadingBlock key={index} />) :items }
         
       </div>
     </div>
