@@ -3,6 +3,8 @@ import Categories from '../components/Categories'
 import SortPopup from '../components/SortPopup'
 import LoadingBlock from '../components/LoadingBlock'
 import PizzaBlock from '../components/PizzaBlock'
+import Pagination from '../components/pagination/Pagination'
+
 
 function Home({searchValue}) {
   const [pizzas, setPizzas] = React.useState([]) //пиццы с сервера
@@ -57,8 +59,13 @@ function Home({searchValue}) {
 
 
         {isLoading ? [...new Array(4)].map((_, index) => <LoadingBlock key={index} />) :items }
+
+        
+
+
         
       </div>
+      <Pagination/>
     </div>
 
   )
