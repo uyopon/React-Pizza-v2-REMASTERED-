@@ -15,15 +15,18 @@ function Home({searchValue}) {
 
   const [sortType,setSortType]= React.useState({name: 'популярности',sortProperty: 'rating'})//филтер дл запроса
 
+  const [currentPage,setCurrentPage]= React.useState(1)
+
 
   React.useEffect(() => {
     setIsLoading(true)
     const order =sortType.sortProperty.includes('-') ? 'desc' : 'asc'
     const sortBy = sortType.sortProperty.replace('-','')
     const category =  categoryId > 0 ? `category=${categoryId}` : ''
+    
     //https://637cafc572f3ce38eaaa7e31.mockapi.io/items?category=1&sortBy=rating&order=asc = пример
 
-    fetch(`https://637cafc572f3ce38eaaa7e31.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order} `).then(
+    fetch(`https://637cafc572f3ce38eaaa7e31.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order} `).then(
      
 
       (resp) => resp.json()).then(
@@ -33,7 +36,7 @@ function Home({searchValue}) {
         })
     window.scrollTo(1, 1)
 
-  }, [categoryId,sortType])
+  }, [categoryId,sortType,currentPage])
 
   const items = pizzas.filter((obj)=>
   {
@@ -65,12 +68,12 @@ function Home({searchValue}) {
 
         
       </div>
-      <Pagination/>
+      <Pagination onChange={(page) => setCurrentPage(page) }/> 
     </div>
 
   )
 }
-
+//переписать пагинацию на самописную
 export default Home
 
 

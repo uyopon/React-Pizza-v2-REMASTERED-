@@ -2,14 +2,14 @@ import React from 'react'
 import ReactPaginate from 'react-paginate';
 import styles from './Pagination.module.css'
 
-function Pagination() {
+function Pagination({onChange}) {
   return (
     <ReactPaginate
     className={styles.root}
     breakLabel="..."
     nextLabel=">"
-    onPageChange={6}
-    pageRangeDisplayed={5}
+    onPageChange={event => onChange(event.selected+1)}
+    pageRangeDisplayed={4}// колво на стрнаицу
     pageCount={3}
     previousLabel="<"
     renderOnZeroPageCount={null}
