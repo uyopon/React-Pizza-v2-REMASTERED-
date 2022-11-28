@@ -4,9 +4,14 @@ import SortPopup from '../components/SortPopup'
 import LoadingBlock from '../components/LoadingBlock'
 import PizzaBlock from '../components/PizzaBlock'
 import Pagination from '../components/pagination/Pagination'
+import { SearchContext } from '../App'
 
 
-function Home({searchValue}) {
+function Home() {
+
+  const {searchValue}= React.useContext(SearchContext)
+
+
   const [pizzas, setPizzas] = React.useState([]) //пиццы с сервера
   const [isLoading, setIsLoading] = React.useState(true) //скелетон
 

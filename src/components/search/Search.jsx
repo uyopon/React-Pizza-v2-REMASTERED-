@@ -1,9 +1,13 @@
 import React from 'react'
 import styles from './search.module.css'
 import icon from '../../assets/img/211652_close_icon.svg'
+import { SearchContext } from '../../App'
 
 
-function Search({searchValue,SetSearchValue}) {
+function Search() {
+
+  const {searchValue, SetSearchValue}= React.useContext(SearchContext)
+
 
   
 
