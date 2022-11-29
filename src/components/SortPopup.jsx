@@ -1,6 +1,12 @@
 import React from 'react'
+import {useSelector,useDispatch}from 'react-redux'
+import {setSortBy} from '../redux/slices/filterSlice'
 
-function SortPopup({sortType, onClickName}) {
+function SortPopup() {
+
+    const dispatch = useDispatch() 
+
+    const sortType = useSelector(state=> state.filter.sort)
 
     // const [sortType,setSortType]= React.useState({name: 'популярности',sortProperty: 'rating'})
 
@@ -19,7 +25,7 @@ function SortPopup({sortType, onClickName}) {
     
 
     const onClickName2= (obj)=> {
-        onClickName(obj)
+        dispatch(setSortBy(obj))
         setOpen(false)
     }
     

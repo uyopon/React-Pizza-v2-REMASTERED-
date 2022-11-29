@@ -5,9 +5,28 @@ import LoadingBlock from '../components/LoadingBlock'
 import PizzaBlock from '../components/PizzaBlock'
 import Pagination from '../components/pagination/Pagination'
 import { SearchContext } from '../App'
+import {useSelector,useDispatch} from 'react-redux'
+import { setCategory } from '../redux/slices/filterSlice'
+
 
 
 function Home() {
+  const dispatch = useDispatch()
+  const categoryId = useSelector(({filter}) => filter.categoryId)
+  const sortType = useSelector(({filter})=> filter.sort) 
+
+  
+  
+  
+
+const onClickCategory=(id)=>{
+  dispatch(setCategory(id)) //{type: 'filter/setCategory', payload: 1}
+ 
+}
+
+
+
+  
 
   const {searchValue}= React.useContext(SearchContext)
 
@@ -15,10 +34,8 @@ function Home() {
   const [pizzas, setPizzas] = React.useState([]) //пиццы с сервера
   const [isLoading, setIsLoading] = React.useState(true) //скелетон
 
-  
-  const [categoryId,setCategoryId]= React.useState(0) //филтер дл запроса
 
-  const [sortType,setSortType]= React.useState({name: 'популярности',sortProperty: 'rating'})//филтер дл запроса
+  // const [sortType,setSortType]= React.useState({name: 'популярности',sortProperty: 'rating'})//филтер дл запроса
 
   const [currentPage,setCurrentPage]= React.useState(1)
 
@@ -56,9 +73,9 @@ function Home() {
     <div className="container">
 
       <div className="content__top">
-        <Categories onClickCategory= {(index)=> setCategoryId(index)} categoryId={categoryId} />
+        <Categories onClickCategory= {onClickCategory} categoryId={categoryId} />
 
-        <SortPopup sortType={sortType} onClickName={(obj)=> setSortType({name: obj.name,sortProperty: obj.sortProperty })} />
+        <SortPopup  />
 
       </div>
       <h2 className="content__title">Все пиццы</h2>
