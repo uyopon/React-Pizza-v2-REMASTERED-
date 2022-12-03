@@ -9,14 +9,13 @@ export const SearchContext = React.createContext()
 
 function App() {
 
- 
 
-  const [searchValue, SetSearchValue] = React.useState('')
+  const [searchValue, setSearchValue] = React.useState('')
 
   return (
 
     <div className="wrapper">
-      <SearchContext.Provider value={{searchValue, SetSearchValue}}>
+      <SearchContext.Provider value={{searchValue, setSearchValue}}>
         <Header />
 
         <div className="content">

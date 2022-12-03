@@ -2,23 +2,60 @@ import React from 'react'
 import styles from './search.module.css'
 import icon from '../../assets/img/211652_close_icon.svg'
 import { SearchContext } from '../../App'
+import debounce from 'lodash.debounce'
 
 
 function Search() {
 
-  const {searchValue, SetSearchValue}= React.useContext(SearchContext)
+  const [value, setValue] = React.useState('') //быстрое отоброение данных из инпута
 
+
+  const { setSearchValue } = React.useContext(SearchContext)
 
   
 
-  return (
-    <div className= {styles.root}>
-      <input className= {styles.input} onChange={(event)=>SetSearchValue(event.target.value)} value = {searchValue} placeholder='поиск пиццы...'/>
+  const inputRef = React.useRef()
 
-      {searchValue && <img src= {icon} className={styles.clearIcon} onClick={()=>SetSearchValue('') }/>}
+  const onClickClear = () => {
+    setSearchValue('')
+    setValue('')
+    inputRef.current.focus()
+
+  }
+
+  const updateSearchValue = React.useCallback(
+    debounce((value) => { //отложена function
+
+     setSearchValue(value)
+
+      // setSearchValue(value.target.value)
+    }, 900)
+    ,[])
+
+
+  const onChangeInput = event => {
+    setValue(event.target.value) //моментально менть инпут
+    updateSearchValue(event.target.value)
+
+  }
+
+
+
+  return (
+    <div className={styles.root}>
+      <input ref={inputRef} className={styles.input} onChange={onChangeInput} value={value} placeholder='поиск пиццы...' />
+
+      {value && <img src={icon} className={styles.clearIcon} onClick={onClickClear} />}
     </div>
-    
+
   )
 }
 
 export default Search
+
+
+  // const testDebounce = React.useCallback( // при каждом измененнии state коспонент делает ререндер не все объекты создаютс новые ссылки.
+  //   debounce(() => {
+  //     console.log('hello')
+  //   }, 1000)
+  //     ,[])
