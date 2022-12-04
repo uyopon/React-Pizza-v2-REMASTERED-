@@ -8,17 +8,17 @@ import { SearchContext } from '../App'
 import {useSelector,useDispatch} from 'react-redux'
 import { setCategory,setCurrentPage } from '../redux/slices/filterSlice'
 import axios from 'axios'
+import qs from  'qs'
+import{useNavigate} from 'react-router-dom'
 
 
 
 function Home() {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const {categoryId,sort,currentPage} = useSelector(({filter}) => filter)//// fuckkkk
 
-  // console.log(currentPage)correct
-
-   
  
 const onClickCategory=(id)=>{
   dispatch(setCategory(id)) //{type: 'filter/setCategory', payload: 1}
@@ -52,7 +52,7 @@ const onChangePage =number=>{
     //https://637cafc572f3ce38eaaa7e31.mockapi.io/items?category=1&sortBy=rating&order=asc = пример
 
     axios.get(
-      `https://637cafc572f3ce38eaaa7e31.mockapi.io/items?page=${currentPage}limit=4&${category}&sortBy=${sortBy}&order=${order}&${search} `).then(
+      `https://637cafc572f3ce38eaaa7e31.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&${search} `).then(
      
 
       
@@ -63,6 +63,19 @@ const onChangePage =number=>{
     window.scrollTo(1, 1)
 
   }, [categoryId,sort,currentPage,searchValue])
+
+  console.log(categoryId,sort.sortProperty,currentPage,searchValue)
+
+  React.useEffect(()=>{const queryString = qs.stringify( //url
+    {
+    sortProperty:sort.sortProperty,
+    categoryId:categoryId,
+    currentPage:currentPage,
+  }
+  )
+  console.log(queryString)
+  navigate(`?${queryString}`)
+},[categoryId,sort.sortProperty,currentPage,searchValue])
 
   // const items = pizzas.filter((obj)=>
   // {
@@ -94,7 +107,7 @@ const onChangePage =number=>{
 
         
       </div>
-      <Pagination onChange={(page)=>onChangePage(page) }/> 
+      <Pagination currentPage={currentPage} onChange={(page)=>onChangePage(page) }/> 
     </div>
 
   )

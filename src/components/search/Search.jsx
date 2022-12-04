@@ -10,7 +10,7 @@ function Search() {
   const [value, setValue] = React.useState('') //быстрое отоброение данных из инпута
 
 
-  const { setSearchValue } = React.useContext(SearchContext)
+  const { setSearchValue } = React.useContext(SearchContext) //for query request
 
   
 
