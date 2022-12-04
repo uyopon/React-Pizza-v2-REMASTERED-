@@ -2,6 +2,16 @@ import React from 'react'
 import {useSelector,useDispatch}from 'react-redux'
 import {setSortBy} from '../redux/slices/filterSlice'
 
+
+export const names = [
+    {name: 'популярности (ASC)',sortProperty: '-rating'}, //проходимс с помощью map
+    {name: 'популярности (DESC)',sortProperty: 'rating'},
+    {name: 'цене (ASC)',sortProperty: '-price'},
+    {name: 'цене (DESC)',sortProperty: 'price'},
+    {name: 'алфавиту (ASC)',sortProperty: 'title'},
+    {name: 'алфавиту (DESC)',sortProperty: '-title'}
+]
+
 function SortPopup() {
 
     const dispatch = useDispatch() 
@@ -12,14 +22,7 @@ function SortPopup() {
 
     const [open,setOpen]= React.useState(false)
 
-    const names = [
-        {name: 'популярности (ASC)',sortProperty: '-rating'},
-        {name: 'популярности (DESC)',sortProperty: 'rating'},
-        {name: 'цене (ASC)',sortProperty: '-price'},
-        {name: 'цене (DESC)',sortProperty: 'price'},
-        {name: 'алфавиту (ASC)',sortProperty: 'title'},
-        {name: 'алфавиту (DESC)',sortProperty: '-title'}
-    ]
+
 
 
     

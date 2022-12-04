@@ -1,12 +1,12 @@
 import React from 'react'
 import Categories from '../components/Categories'
-import SortPopup from '../components/SortPopup'
+import SortPopup, { names } from '../components/SortPopup'
 import LoadingBlock from '../components/LoadingBlock'
 import PizzaBlock from '../components/PizzaBlock'
 import Pagination from '../components/pagination/Pagination'
 import { SearchContext } from '../App'
 import {useSelector,useDispatch} from 'react-redux'
-import { setCategory,setCurrentPage } from '../redux/slices/filterSlice'
+import { setCategory,setCurrentPage,setfilters } from '../redux/slices/filterSlice'
 import axios from 'axios'
 import qs from  'qs'
 import{useNavigate} from 'react-router-dom'
@@ -14,6 +14,7 @@ import{useNavigate} from 'react-router-dom'
 
 
 function Home() {
+  console.log(window.location.search)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -33,12 +34,29 @@ const onChangePage =number=>{
 
 
   const [pizzas, setPizzas] = React.useState([]) //пиццы с сервера
-  const [isLoading, setIsLoading] = React.useState(true) //скелетон
+  const [isLoading, setIsLoading] = React.useState(true) 
 
 
  
 
-  // const [currentPage,setCurrentPage]= React.useState(1)
+  
+
+  React.useEffect(()=>{
+    
+    if(window.location.search){
+      const params = qs.parse(window.location.search.substring(1)) //текущее значение аддресной строки превращаем  объект
+      console.log(params)
+
+      // console.log(params)//{sortProperty: '-rating', categoryId: '0', currentPage: '2'}
+
+      const sort = names.find(obj=> obj.sortProperty===params.sortProperty)// нужно передать весь объект sort а не одно строкоовое значение
+      
+      dispatch(setfilters({...params,sort})) //передаем в redux параметры объекта
+    }
+
+  }
+
+  ,[])
 
 
   React.useEffect(() => {
@@ -49,7 +67,7 @@ const onChangePage =number=>{
     const search =searchValue? `search=${searchValue}`: ''
     
     
-    //https://637cafc572f3ce38eaaa7e31.mockapi.io/items?category=1&sortBy=rating&order=asc = пример
+    
 
     axios.get(
       `https://637cafc572f3ce38eaaa7e31.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&${search} `).then(
@@ -64,18 +82,20 @@ const onChangePage =number=>{
 
   }, [categoryId,sort,currentPage,searchValue])
 
-  console.log(categoryId,sort.sortProperty,currentPage,searchValue)
+  
 
-  React.useEffect(()=>{const queryString = qs.stringify( //url
+  React.useEffect(()=>{const queryString = qs.stringify( //превращает obj в одну строку
     {
     sortProperty:sort.sortProperty,
     categoryId:categoryId,
     currentPage:currentPage,
   }
   )
-  console.log(queryString)
-  navigate(`?${queryString}`)
-},[categoryId,sort.sortProperty,currentPage,searchValue])
+  // console.log(queryString) //sortProperty=-rating&categoryId=0&currentPage=1
+
+  navigate(`?${queryString}`)//вшивает в аддресную строку значение
+
+},[categoryId, sort.sortProperty, currentPage])
 
   // const items = pizzas.filter((obj)=>
   // {
