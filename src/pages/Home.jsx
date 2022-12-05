@@ -41,7 +41,7 @@ const onChangePage =number=>{
 
   
 
-  React.useEffect(()=>{
+  React.useEffect(()=>{//преобразует текущий url  в параметры объекта, диспатчит   в redux - как только параметры именились -fetch делает запрос 2 раз
     
     if(window.location.search){
       const params = qs.parse(window.location.search.substring(1)) //текущее значение аддресной строки превращаем  объект
