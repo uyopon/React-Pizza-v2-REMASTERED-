@@ -15,25 +15,33 @@ export const names = [
 function SortPopup() {
 
     const dispatch = useDispatch() 
+    
+    const sortRef = React.useRef()
 
     const sortType = useSelector(state=> state.filter.sort)
 
-    // const [sortType,setSortType]= React.useState({name: 'популярности',sortProperty: 'rating'})
-
-    const [open,setOpen]= React.useState(false)
-
-
-
-
     
+    const [open,setOpen]= React.useState(false)
 
     const onClickName2= (obj)=> {
         dispatch(setSortBy(obj))
         setOpen(false)
+
     }
+
+    React.useEffect(()=>{
+        const handleClickOutsde = event=>{
+            if(!event.path.includes(sortRef.current)){setOpen(false)}
+        }
+        document.body.addEventListener('click', handleClickOutsde)
+
+        return()=>{ //this is unmount
+            document.body.removeEventListener('click', handleClickOutsde) //чтобы addEventListener не сумировались при удалении компоненты
+        }
+    },[])
     
     return (
-        <div className="sort">
+        <div className="sort" ref={sortRef}>
             <div className="sort__label">
                 <svg
                     width="10"

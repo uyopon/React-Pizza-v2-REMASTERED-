@@ -5,97 +5,127 @@ import LoadingBlock from '../components/LoadingBlock'
 import PizzaBlock from '../components/PizzaBlock'
 import Pagination from '../components/pagination/Pagination'
 import { SearchContext } from '../App'
-import {useSelector,useDispatch} from 'react-redux'
-import { setCategory,setCurrentPage,setfilters } from '../redux/slices/filterSlice'
+import { useSelector, useDispatch } from 'react-redux'
+import { setCategory, setCurrentPage, setfilters } from '../redux/slices/filterSlice'
 import axios from 'axios'
-import qs from  'qs'
-import{useNavigate} from 'react-router-dom'
+import qs from 'qs'
+import { useNavigate } from 'react-router-dom'
 
 
 
 function Home() {
-  console.log(window.location.search)
+  
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
-  const {categoryId,sort,currentPage} = useSelector(({filter}) => filter)//// fuckkkk
-
- 
-const onClickCategory=(id)=>{
-  dispatch(setCategory(id)) //{type: 'filter/setCategory', payload: 1}
-}
-
-const onChangePage =number=>{
-  dispatch(setCurrentPage(number))
-
-}
-
-  const {searchValue}= React.useContext(SearchContext)
-
-
-  const [pizzas, setPizzas] = React.useState([]) //пиццы с сервера
-  const [isLoading, setIsLoading] = React.useState(true) 
-
+  const isSearch = React.useRef(false) //нужно ли делатьпоиск через url
+  const isMounted = React.useRef(false) //for url string
 
  
 
-  
+ 
 
-  React.useEffect(()=>{//преобразует текущий url  в параметры объекта, диспатчит   в redux - как только параметры именились -fetch делает запрос 2 раз
-    
-    if(window.location.search){
-      const params = qs.parse(window.location.search.substring(1)) //текущее значение аддресной строки превращаем  объект
-      console.log(params)
 
-      // console.log(params)//{sortProperty: '-rating', categoryId: '0', currentPage: '2'}
+  const { categoryId, sort, currentPage } = useSelector(({ filter }) => filter)//// fuckkkk
 
-      const sort = names.find(obj=> obj.sortProperty===params.sortProperty)// нужно передать весь объект sort а не одно строкоовое значение
-      
-      dispatch(setfilters({...params,sort})) //передаем в redux параметры объекта
-    }
+
+  const onClickCategory = (id) => {
+    dispatch(setCategory(id)) //{type: 'filter/setCategory', payload: 1}
+  }
+
+  const onChangePage = number => {
+    dispatch(setCurrentPage(number))
 
   }
 
-  ,[])
+  const { searchValue } = React.useContext(SearchContext)
 
 
-  React.useEffect(() => {
+  const [pizzas, setPizzas] = React.useState([]) //пиццы с сервера
+  const [isLoading, setIsLoading] = React.useState(true)
+
+
+
+
+  const fetchPizzas = () => {
+    
     setIsLoading(true)
-    const order =sort.sortProperty.includes('-') ? 'desc' : 'asc'
-    const sortBy = sort.sortProperty.replace('-','')
-    const category =  categoryId > 0 ? `category=${categoryId}` : ''
-    const search =searchValue? `search=${searchValue}`: ''
-    
-    
-    
+    const order = sort.sortProperty.includes('-') ? 'desc' : 'asc'
+    const sortBy = sort.sortProperty.replace('-', '')
+    const category = categoryId > 0 ? `category=${categoryId}` : ''
+    const search = searchValue ? `search=${searchValue}` : ''
 
     axios.get(
       `https://637cafc572f3ce38eaaa7e31.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&${search} `).then(
-     
 
-      
         (resp) => {
           setPizzas(resp.data)
           setIsLoading(false)
         })
-    window.scrollTo(1, 1)
-
-  }, [categoryId,sort,currentPage,searchValue])
-
-  
-
-  React.useEffect(()=>{const queryString = qs.stringify( //превращает obj в одну строку
-    {
-    sortProperty:sort.sortProperty,
-    categoryId:categoryId,
-    currentPage:currentPage,
   }
-  )
-  // console.log(queryString) //sortProperty=-rating&categoryId=0&currentPage=1
 
-  navigate(`?${queryString}`)//вшивает в аддресную строку значение
 
-},[categoryId, sort.sortProperty, currentPage])
+
+
+  React.useEffect(() => {//преобразует текущий url  в параметры объекта, диспатчит   в redux - как только параметры именились -fetch делает запрос 2 раз
+
+    if (window.location.search) {
+      
+
+     
+      
+      const params = qs.parse(window.location.search.substring(1)) //текущее значение аддресной строки превращаем  объект
+      
+
+      // console.log(params)//{sortProperty: '-rating', categoryId: '0', currentPage: '2'}
+
+      const sort = names.find(obj => obj.sortProperty === params.sortProperty)// нужно передать весь объект sort а не одно строкоовое значение
+
+      dispatch(setfilters({ ...params, sort })) //передаем в redux параметры объекта
+
+      isSearch.current=false // при дефолт 1 fetch request , при ручном url - 2 fetch запроса
+    }
+
+  }
+
+    , [])
+
+
+  React.useEffect(() => {
+    
+    
+    window.scrollTo(1, 1)
+    if(!isSearch.current){
+      
+      
+      
+      fetchPizzas()}
+
+    isSearch.current= false
+
+  }, [categoryId, sort, currentPage, searchValue])
+
+
+
+  React.useEffect(() => {
+    
+    if(isMounted.current){
+      
+      const queryString = qs.stringify( //превращает obj в одну строку
+      {
+        sortProperty: sort.sortProperty,
+        categoryId: categoryId,
+        currentPage: currentPage,
+      }
+
+      
+    
+    )
+    navigate(`?${queryString}`)//вшивает в аддресную строку значение
+  }
+    // console.log(queryString) //sortProperty=-rating&categoryId=0&currentPage=1
+
+  isMounted.current = true
+  }, [categoryId, sort.sortProperty, currentPage])
 
   // const items = pizzas.filter((obj)=>
   // {
@@ -110,9 +140,9 @@ const onChangePage =number=>{
     <div className="container">
 
       <div className="content__top">
-        <Categories onClickCategory= {onClickCategory} categoryId={categoryId} />
+        <Categories onClickCategory={onClickCategory} categoryId={categoryId} />
 
-        <SortPopup  />
+        <SortPopup />
 
       </div>
       <h2 className="content__title">Все пиццы</h2>
@@ -120,14 +150,14 @@ const onChangePage =number=>{
 
 
 
-        {isLoading ? [...new Array(4)].map((_, index) => <LoadingBlock key={index} />) :pizzas.map((obj) => <PizzaBlock key={obj.id} {...obj} />) }
-
-        
+        {isLoading ? [...new Array(4)].map((_, index) => <LoadingBlock key={index} />) : pizzas.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
 
 
-        
+
+
+
       </div>
-      <Pagination currentPage={currentPage} onChange={(page)=>onChangePage(page) }/> 
+      <Pagination currentPage={currentPage} onChange={(page) => onChangePage(page)} />
     </div>
 
   )
