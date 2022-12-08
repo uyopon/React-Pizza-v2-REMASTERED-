@@ -7,10 +7,11 @@ import CartItem from '../components/CartItem'
 
 
 function Cart() {
+
   const dispatch  = useDispatch()
   const {totalPrice,items} =useSelector(({cart})=>cart)
 
-  console.log(totalPrice,items)
+ 
   return (
     <div className="content container--cart">
 
