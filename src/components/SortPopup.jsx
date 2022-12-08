@@ -39,6 +39,8 @@ function SortPopup() {
             document.body.removeEventListener('click', handleClickOutsde) //чтобы addEventListener не сумировались при удалении компоненты
         }
     },[])
+
+    console.log(sortRef.current)
     
     return (
         <div className="sort" ref={sortRef}>

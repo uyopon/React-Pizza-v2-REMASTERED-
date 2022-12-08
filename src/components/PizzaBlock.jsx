@@ -1,25 +1,33 @@
 import React from 'react'
+import { useDispatch,useSelector } from 'react-redux'
+import { addItem } from '../redux/slices/cartSlice'
 
 
 const typeNames = ['тонкое','традиционное']
+const sizesValues = [26,30,40]
 
-function PizzaBlock({imageUrl, title,price,sizes,types}) {
+function PizzaBlock({id,imageUrl, title,types,sizes,price,category,rating}) {
+
+    const cartItem = useSelector(({cart})=>cart.items.find(obj=>obj.id===id))
+
+    const addedCount = cartItem? cartItem.count:0
+
+    const dispatch = useDispatch()
+
+    const onClickAdd = ()=> {
+        const  obj = {id,imageUrl, title, type:typeNames[activeType], size  :sizesValues[ activeSize], price,category,rating}
+        dispatch(addItem(obj)) }
+
 
     const [activeSize,setActiveSize]= React.useState(0)
     const [activeType,setActiveType]= React.useState(types[0])
-
-    
-
-
 
     const onClickSize = (index)=>{
         setActiveSize(index)
     }
 
     const onClickType = (index)=>{
-        setActiveType(index)
-    }
-
+        setActiveType(index)}
 
     return (
         <div className="pizza-block">
@@ -47,7 +55,7 @@ function PizzaBlock({imageUrl, title,price,sizes,types}) {
             </div>
             <div className="pizza-block__bottom">
                 <div className="pizza-block__price">от {price} ₽</div>
-                <div  className="button button--outline button--add">
+                <div  onClick = {onClickAdd} className="button button--outline button--add">
                     <svg
                         width="12"
                         height="12"
@@ -60,8 +68,8 @@ function PizzaBlock({imageUrl, title,price,sizes,types}) {
                             fill="white"
                         />
                     </svg>
-                    <span >Добавить</span>
-                    <i>0</i>
+                    <span>Добавить</span>
+                    {addedCount>0?<i>{addedCount}</i>: ''}
                 </div>
             </div>
         </div>
@@ -70,3 +78,7 @@ function PizzaBlock({imageUrl, title,price,sizes,types}) {
 }
 
 export default PizzaBlock
+
+
+
+

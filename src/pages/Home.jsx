@@ -12,17 +12,12 @@ import qs from 'qs'
 import { useNavigate } from 'react-router-dom'
 
 
-
 function Home() {
   
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isSearch = React.useRef(false) //нужно ли делатьпоиск через url
   const isMounted = React.useRef(false) //for url string
-
- 
-
- 
 
 
   const { categoryId, sort, currentPage } = useSelector(({ filter }) => filter)//// fuckkkk
