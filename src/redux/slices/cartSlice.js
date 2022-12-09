@@ -3,7 +3,6 @@ import { createSlice ,current} from '@reduxjs/toolkit'
 const initialState = {
   totalPrice: 0,
   items: [],
-  
 }
 export const cartSlice = createSlice({
   name: 'cart',
@@ -20,14 +19,11 @@ export const cartSlice = createSlice({
     },
     removeItem(state, action) { 
 
-      
       const findItem = state.items.find(obj => obj.id === action.payload)
       const price = (findItem.count*findItem.price)
       state.totalPrice = (state.totalPrice -price )
       state.items = state.items.filter((obj) => obj.id !== action.payload)
-
     },
-
     clearItems(state) {
       state.items = []
       state.totalPrice = 0
@@ -37,14 +33,20 @@ export const cartSlice = createSlice({
       const findItem = state.items.find(obj => obj.id === action.payload)
       if (findItem) findItem.count++
 
-      state.totalPrice = state.items.reduce((sum, obj) => sum + (obj.price * obj.count), 0)
+      const price  = (findItem.price)
+
+      state.totalPrice = state.totalPrice+ price
     },
     minusItem(state,action){
-
+      
       const findItem = state.items.find(obj => obj.id === action.payload)
-      if (findItem) findItem.count--
+      
+      if (findItem.count>1) {findItem.count--
 
-      state.totalPrice = state.items.reduce((sum, obj) => sum - (obj.price * obj.count), 0)
+        const price  = (findItem.price)
+
+      state.totalPrice = state.totalPrice-price
+      }
 
     },
   },
