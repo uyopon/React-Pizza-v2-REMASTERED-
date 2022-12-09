@@ -1,21 +1,27 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { plusItem } from '../redux/slices/cartSlice'
-
+import {plusItem,minusItem,removeItem,clearItems} from '../redux/slices/cartSlice'
 
 
 function CartItem({imageUrl,title,price,count ,type,size,id}) {
 
-  
-
   const dispatch = useDispatch()
 
-  const onPlusItem = id =>{
-    // console.log(id) work
-    
-    dispatch(plusItem(id))
-    
+  const onPLusItem  = (id)=>{
+    dispatch(plusItem(id))}
 
+  const onMinusItem  = (id)=>{
+    dispatch(minusItem(id))}
+
+  
+  const onRemove = (id)=> {
+    console.log('onremove')
+    dispatch(removeItem(id))
+  }
+
+
+  const onClickClear = () =>{
+    dispatch(clearItems())
   }
 
 
@@ -32,7 +38,7 @@ function CartItem({imageUrl,title,price,count ,type,size,id}) {
               <p>{type}, {size} см.</p>
             </div>
             <div className="cart__item-count">
-              <div className="button button--outline button--circle cart__item-count-minus">
+              <div  onClick = {()=> onMinusItem(id)} className="button button--outline button--circle cart__item-count-minus">
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
@@ -44,7 +50,7 @@ function CartItem({imageUrl,title,price,count ,type,size,id}) {
 
               </div>
             <b>{count}</b>
-              <div  onClick={()=> onPlusItem(id)} className="button button--outline button--circle cart__item-count-plus">
+              <div onClick = {()=> onPLusItem(id)}className="button button--outline button--circle cart__item-count-plus">
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
@@ -60,7 +66,7 @@ function CartItem({imageUrl,title,price,count ,type,size,id}) {
               <b>{price*count} ₽</b>
             </div>
             <div className="cart__item-remove">
-              <div className="button button--outline button--circle">
+              <div  onClick = {()=> onRemove(id)}className="button button--outline button--circle">
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
