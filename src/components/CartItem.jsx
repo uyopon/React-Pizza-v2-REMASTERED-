@@ -15,7 +15,7 @@ function CartItem({imageUrl,title,price,count ,type,size,id}) {
 
   
   const onRemove = (id)=> {
-    console.log('onremove')
+   
     dispatch(removeItem(id))
   }
 

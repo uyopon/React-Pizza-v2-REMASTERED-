@@ -40,7 +40,6 @@ function SortPopup() {
         }
     },[])
 
-    console.log(sortRef.current)
     
     return (
         <div className="sort" ref={sortRef}>
