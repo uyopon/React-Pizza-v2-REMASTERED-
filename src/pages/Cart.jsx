@@ -22,7 +22,9 @@ function Cart() {
   return (
     <div className="content container--cart">
 
-      {items.length ? <div className="cart">
+      {items.length ?
+      
+      <div className="cart">
         <div className="cart__top">
           <h2 className="content__title"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -78,7 +80,14 @@ function Cart() {
             </div>
           </div>
         </div>
-      </div> : <EmptyCart/>}
+      </div>
+      
+      
+      
+      : 
+      
+      
+      <EmptyCart/>}
 
     </div>
   )
