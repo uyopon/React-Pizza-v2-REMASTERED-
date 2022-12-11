@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom'
 
 
 function Home() {
-  
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isSearch = React.useRef(false) //нужно ли делатьпоиск через url
@@ -41,22 +41,47 @@ function Home() {
 
 
 
-  const fetchPizzas = () => {
-    
+  const fetchPizzas = async () => {
+
     setIsLoading(true)
     const order = sort.sortProperty.includes('-') ? 'desc' : 'asc'
     const sortBy = sort.sortProperty.replace('-', '')
     const category = categoryId > 0 ? `category=${categoryId}` : ''
     const search = searchValue ? `search=${searchValue}` : ''
 
-    axios.get(
-      `https://637cafc572f3ce38eaaa7e31.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&${search} `).then(
+    // await axios.get(
+    //   `https://637cac572f3ce38eaaa7e31.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&${search} `).then(
 
-        (resp) => {
-          setPizzas(resp.data)
-          setIsLoading(false)
-        })
+    //     (resp) => {
+    //       setPizzas(resp.data)
+    //       setIsLoading(false)
+    //     })
+    //     .catch((error)=>{  //отлавливаем ошибку
+    //       setIsLoading(false)
+    //     })
+
+
+    try {
+
+      const resp = await axios.get(`https://637cafc572f3ce38eaaa7e31.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&${search} `)
+
+      setPizzas(resp.data)
+      
+
+    } catch (error) {  //если есть ошибка не дает крашнутьс приложению
+      
+      alert('ошибка сервера')
+
+    } finally{
+      setIsLoading(false)
+
+    }
+      
+
+
   }
+
+
 
 
 
@@ -64,12 +89,12 @@ function Home() {
   React.useEffect(() => {//преобразует текущий url  в параметры объекта, диспатчит   в redux - как только параметры именились -fetch делает запрос 2 раз
 
     if (window.location.search) {
-      
 
-     
-      
+
+
+
       const params = qs.parse(window.location.search.substring(1)) //текущее значение аддресной строки превращаем  объект
-      
+
 
       // console.log(params)//{sortProperty: '-rating', categoryId: '0', currentPage: '2'}
 
@@ -77,7 +102,7 @@ function Home() {
 
       dispatch(setfilters({ ...params, sort })) //передаем в redux параметры объекта
 
-      isSearch.current=false // при дефолт 1 fetch request , при ручном url - 2 fetch запроса
+      isSearch.current = false // при дефолт 1 fetch request , при ручном url - 2 fetch запроса
     }
 
   }
@@ -86,40 +111,41 @@ function Home() {
 
 
   React.useEffect(() => {
-    
-    
-    window.scrollTo(1, 1)
-    if(!isSearch.current){
-      
-      
-      
-      fetchPizzas()}
 
-    isSearch.current= false
+
+    window.scrollTo(1, 1)
+    if (!isSearch.current) {
+
+
+
+      fetchPizzas()
+    }
+
+    isSearch.current = false
 
   }, [categoryId, sort, currentPage, searchValue])
 
 
 
   React.useEffect(() => {
-    
-    if(isMounted.current){
-      
-      const queryString = qs.stringify( //превращает obj в одну строку
-      {
-        sortProperty: sort.sortProperty,
-        categoryId: categoryId,
-        currentPage: currentPage,
-      }
 
-      
-    
-    )
-    navigate(`?${queryString}`)//вшивает в аддресную строку значение
-  }
+    if (isMounted.current) {
+
+      const queryString = qs.stringify( //превращает obj в одну строку
+        {
+          sortProperty: sort.sortProperty,
+          categoryId: categoryId,
+          currentPage: currentPage,
+        }
+
+
+
+      )
+      navigate(`?${queryString}`)//вшивает в аддресную строку значение
+    }
     // console.log(queryString) //sortProperty=-rating&categoryId=0&currentPage=1
 
-  isMounted.current = true
+    isMounted.current = true
   }, [categoryId, sort.sortProperty, currentPage])
 
   // const items = pizzas.filter((obj)=>
