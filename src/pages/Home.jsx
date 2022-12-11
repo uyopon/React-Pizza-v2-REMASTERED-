@@ -14,6 +14,10 @@ import { fetchPizzas } from '../redux/slices/pizzas.slice'
 
 function Home() {
 
+
+
+  
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isSearch = React.useRef(false) //нужно ли делатьпоиск через url
@@ -109,11 +113,11 @@ function Home() {
 
 
     window.scrollTo(1, 1)
-    if (!isSearch.current) {
+    if (!isSearch.current) { // это нужно чтобы при измененнии ручного url запрос не отправллс дважды
 
 
 
-      fetchPizzas()
+      getPizzas()
     }
 
     isSearch.current = false
