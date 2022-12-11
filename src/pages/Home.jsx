@@ -7,9 +7,9 @@ import Pagination from '../components/pagination/Pagination'
 import { SearchContext } from '../App'
 import { useSelector, useDispatch } from 'react-redux'
 import { setCategory, setCurrentPage, setfilters } from '../redux/slices/filterSlice'
-import axios from 'axios'
 import qs from 'qs'
 import { useNavigate } from 'react-router-dom'
+import { fetchPizzas } from '../redux/slices/pizzas.slice'
 
 
 function Home() {
@@ -18,9 +18,8 @@ function Home() {
   const dispatch = useDispatch()
   const isSearch = React.useRef(false) //нужно ли делатьпоиск через url
   const isMounted = React.useRef(false) //for url string
-
-
-  const { categoryId, sort, currentPage } = useSelector(({ filter }) => filter)//// fuckkkk
+  const { categoryId, sort, currentPage } = useSelector(({ filter }) => filter)
+  const {items} = useSelector(({pizzas})=>pizzas)
 
 
   const onClickCategory = (id) => {
@@ -29,19 +28,13 @@ function Home() {
 
   const onChangePage = number => {
     dispatch(setCurrentPage(number))
-
   }
 
   const { searchValue } = React.useContext(SearchContext)
 
-
-  const [pizzas, setPizzas] = React.useState([]) //пиццы с сервера
   const [isLoading, setIsLoading] = React.useState(true)
 
-
-
-
-  const fetchPizzas = async () => {
+  const getPizzas = async () => {
 
     setIsLoading(true)
     const order = sort.sortProperty.includes('-') ? 'desc' : 'asc'
@@ -60,12 +53,15 @@ function Home() {
     //       setIsLoading(false)
     //     })
 
-
     try {
 
-      const resp = await axios.get(`https://637cafc572f3ce38eaaa7e31.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&${search} `)
-
-      setPizzas(resp.data)
+      dispatch(fetchPizzas({
+        order,
+        sortBy,
+        category,
+        search,
+        currentPage
+      }))
       
 
     } catch (error) {  //если есть ошибка не дает крашнутьс приложению
@@ -77,7 +73,6 @@ function Home() {
 
     }
       
-
 
   }
 
@@ -171,7 +166,7 @@ function Home() {
 
 
 
-        {isLoading ? [...new Array(4)].map((_, index) => <LoadingBlock key={index} />) : pizzas.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
+        {isLoading ? [...new Array(4)].map((_, index) => <LoadingBlock key={index} />) : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
 
 
 

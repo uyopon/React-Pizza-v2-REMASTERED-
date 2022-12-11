@@ -1,4 +1,8 @@
-import { createSlice} from '@reduxjs/toolkit'
+import { createSlice,createAsyncThunk,} from '@reduxjs/toolkit'
+
+
+
+
 
 const initialState = {
   categoryId: 0,
