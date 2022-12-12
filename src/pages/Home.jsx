@@ -14,16 +14,12 @@ import { fetchPizzas } from '../redux/slices/pizzas.slice'
 
 function Home() {
 
-
-
-  
-
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isSearch = React.useRef(false) //нужно ли делатьпоиск через url
   const isMounted = React.useRef(false) //for url string
   const { categoryId, sort, currentPage } = useSelector(({ filter }) => filter)
-  const {items} = useSelector(({pizzas})=>pizzas)
+  const { items ,status} = useSelector(({ pizzas }) => pizzas)
 
 
   const onClickCategory = (id) => {
@@ -36,11 +32,11 @@ function Home() {
 
   const { searchValue } = React.useContext(SearchContext)
 
-  const [isLoading, setIsLoading] = React.useState(true)
+  // const [isLoading, setIsLoading] = React.useState(true)
 
   const getPizzas = async () => {
 
-    setIsLoading(true)
+    // setIsLoading(true)
     const order = sort.sortProperty.includes('-') ? 'desc' : 'asc'
     const sortBy = sort.sortProperty.replace('-', '')
     const category = categoryId > 0 ? `category=${categoryId}` : ''
@@ -57,130 +53,106 @@ function Home() {
     //       setIsLoading(false)
     //     })
 
-    try {
 
-      dispatch(fetchPizzas({
-        order,
-        sortBy,
-        category,
-        search,
-        currentPage
-      }))
-      
-
-    } catch (error) {  //если есть ошибка не дает крашнутьс приложению
-      
-      alert('ошибка сервера')
-
-    } finally{
-      setIsLoading(false)
-
-    }
-      
+    dispatch(fetchPizzas({
+      order,
+      sortBy,
+      category,
+      search,
+      currentPage
+    }))
 
   }
 
 
+React.useEffect(() => {//преобразует текущий url  в параметры объекта, диспатчит   в redux - как только параметры именились -fetch делает запрос 2 раз
+
+  if (window.location.search) {
 
 
+    const params = qs.parse(window.location.search.substring(1)) //текущее значение аддресной строки превращаем  объект
 
+    // console.log(params)//{sortProperty: '-rating', categoryId: '0', currentPage: '2'}
 
-  React.useEffect(() => {//преобразует текущий url  в параметры объекта, диспатчит   в redux - как только параметры именились -fetch делает запрос 2 раз
+    const sort = names.find(obj => obj.sortProperty === params.sortProperty)// нужно передать весь объект sort а не одно строкоовое значение
 
-    if (window.location.search) {
+    dispatch(setfilters({ ...params, sort })) //передаем в redux параметры объекта
 
-
-
-
-      const params = qs.parse(window.location.search.substring(1)) //текущее значение аддресной строки превращаем  объект
-
-
-      // console.log(params)//{sortProperty: '-rating', categoryId: '0', currentPage: '2'}
-
-      const sort = names.find(obj => obj.sortProperty === params.sortProperty)// нужно передать весь объект sort а не одно строкоовое значение
-
-      dispatch(setfilters({ ...params, sort })) //передаем в redux параметры объекта
-
-      isSearch.current = false // при дефолт 1 fetch request , при ручном url - 2 fetch запроса
-    }
-
+    isSearch.current = false // при дефолт 1 fetch request , при ручном url - 2 fetch запроса
   }
 
-    , [])
+}
+  , [])
 
 
-  React.useEffect(() => {
+React.useEffect(() => {
 
 
-    window.scrollTo(1, 1)
-    if (!isSearch.current) { // это нужно чтобы при измененнии ручного url запрос не отправллс дважды
-
-
-
-      getPizzas()
-    }
-
-    isSearch.current = false
-
-  }, [categoryId, sort, currentPage, searchValue])
+  window.scrollTo(1, 1)
+  if (!isSearch.current) { // это нужно чтобы при измененнии ручного url запрос не отправллс дважды
 
 
 
-  React.useEffect(() => {
+    getPizzas()
+  }
 
-    if (isMounted.current) {
+  isSearch.current = false
 
-      const queryString = qs.stringify( //превращает obj в одну строку
-        {
-          sortProperty: sort.sortProperty,
-          categoryId: categoryId,
-          currentPage: currentPage,
-        }
+}, [categoryId, sort, currentPage, searchValue])
 
 
 
-      )
-      navigate(`?${queryString}`)//вшивает в аддресную строку значение
-    }
-    // console.log(queryString) //sortProperty=-rating&categoryId=0&currentPage=1
+React.useEffect(() => {
 
-    isMounted.current = true
-  }, [categoryId, sort.sortProperty, currentPage])
+  if (isMounted.current) {
 
-  // const items = pizzas.filter((obj)=>
-  // {
-  //     if(obj.title.toLowerCase().includes(searchValue.toLowerCase())){return true}
-  //     return false
-  // }
+    const queryString = qs.stringify( //превращает obj в одну строку
+      {
+        sortProperty: sort.sortProperty,
+        categoryId: categoryId,
+        currentPage: currentPage,
+      }
 
-  //     ).map((obj) => <PizzaBlock key={obj.id} {...obj} />)
+    )
+    navigate(`?${queryString}`)//вшивает в аддресную строку значение
+  }
+  // console.log(queryString) //sortProperty=-rating&categoryId=0&currentPage=1
 
+  isMounted.current = true
+}, [categoryId, sort.sortProperty, currentPage])
 
-  return (
-    <div className="container">
+// const items = pizzas.filter((obj)=>
+// {
+//     if(obj.title.toLowerCase().includes(searchValue.toLowerCase())){return true}
+//     return false
+// }
 
-      <div className="content__top">
-        <Categories onClickCategory={onClickCategory} categoryId={categoryId} />
-
-        <SortPopup />
-
-      </div>
-      <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
+//     ).map((obj) => <PizzaBlock key={obj.id} {...obj} />)
 
 
+return (
+  <div className="container">
 
-        {isLoading ? [...new Array(4)].map((_, index) => <LoadingBlock key={index} />) : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
+    <div className="content__top">
+      <Categories onClickCategory={onClickCategory} categoryId={categoryId} />
 
+      <SortPopup />
 
-
-
-
-      </div>
-      <Pagination currentPage={currentPage} onChange={(page) => onChangePage(page)} />
     </div>
+    <h2 className="content__title">Все пиццы</h2>
+    <div className="content__items">
 
-  )
+
+      {status === 'error'? <h2>ошибка сервера =(</h2> :
+      status === 'loading'? [...new Array(4)].map((_, index) => <LoadingBlock key={index} />) : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
+}
+
+
+    </div>
+    <Pagination currentPage={currentPage} onChange={(page) => onChangePage(page)} />
+  </div>
+
+)
 }
 //переписать пагинацию на самописную
 export default Home
