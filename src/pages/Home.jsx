@@ -12,7 +12,13 @@ import { fetchPizzas } from '../redux/slices/pizzas.slice'
 
 
 
+
+
+
 function Home() {
+
+
+  
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -146,7 +152,7 @@ return (
 
 
       {status === 'error'? <h2>ошибка сервера =(</h2> :
-      status === 'loading'? [...new Array(4)].map((_, index) => <LoadingBlock key={index} />) : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
+      status === 'loading'? [...new Array(4)].map((_, index) => <LoadingBlock key={index} />) : items.map((obj) =>  < PizzaBlock  {...obj} key = {obj.id}/>)
 }
 
 

@@ -10,6 +10,8 @@ import EmptyCart from '../components/EmptyCart'
 
 function Cart() {
 
+  
+
   const dispatch  = useDispatch()
   const {totalPrice,items} =useSelector(({cart})=>cart)
 
