@@ -1,32 +1,42 @@
 import React from 'react'
 import styles from './search.module.css'
 import icon from '../../assets/img/211652_close_icon.svg'
-import { SearchContext } from '../../App'
 import debounce from 'lodash.debounce'
+import { useSelector,useDispatch } from 'react-redux'
+import { setCurrentSearch } from '../../redux/slices/filterSlice'
+
+
 
 
 function Search() {
 
+  const dispatch = useDispatch()
+
   const [value, setValue] = React.useState('') //быстрое отоброение данных из инпута
 
+  const {currentSearch} = useSelector(({filter})=> filter)
 
-  const { setSearchValue } = React.useContext(SearchContext) //for query request
+
+  
 
   
 
   const inputRef = React.useRef()
 
   const onClickClear = () => {
-    setSearchValue('')
+    // setSearchValue('')
+    dispatch(setCurrentSearch(''))
     setValue('')
     inputRef.current.focus()
 
   }
 
   const updateSearchValue = React.useCallback(
-    debounce((value) => { //отложена function
+    debounce((str) => { //отложена function
 
-     setSearchValue(value)
+    //  setSearchValue(value)
+     dispatch(setCurrentSearch(str))
+     
 
       // setSearchValue(value.target.value)
     }, 900)
@@ -34,6 +44,7 @@ function Search() {
 
 
   const onChangeInput = event => {
+
     setValue(event.target.value) //моментально менть инпут
     updateSearchValue(event.target.value)
 

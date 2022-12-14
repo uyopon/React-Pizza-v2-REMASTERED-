@@ -4,12 +4,12 @@ import SortPopup, { names } from '../components/SortPopup'
 import LoadingBlock from '../components/LoadingBlock'
 import PizzaBlock from '../components/PizzaBlock'
 import Pagination from '../components/pagination/Pagination'
-import { SearchContext } from '../App'
 import { useSelector, useDispatch } from 'react-redux'
 import { setCategory, setCurrentPage, setfilters } from '../redux/slices/filterSlice'
 import qs from 'qs'
 import { useNavigate } from 'react-router-dom'
 import { fetchPizzas } from '../redux/slices/pizzas.slice'
+
 
 
 function Home() {
@@ -30,17 +30,18 @@ function Home() {
     dispatch(setCurrentPage(number))
   }
 
-  const { searchValue } = React.useContext(SearchContext)
+  const {currentSearch} = useSelector(({filter})=> filter)
 
-  // const [isLoading, setIsLoading] = React.useState(true)
+  // const { searchValue } = React.useContext(SearchContext)
 
+  
   const getPizzas = async () => {
 
-    // setIsLoading(true)
+    
     const order = sort.sortProperty.includes('-') ? 'desc' : 'asc'
     const sortBy = sort.sortProperty.replace('-', '')
     const category = categoryId > 0 ? `category=${categoryId}` : ''
-    const search = searchValue ? `search=${searchValue}` : ''
+    const search = currentSearch ? `search=${currentSearch}` : ''
 
     // await axios.get(
     //   `https://637cac572f3ce38eaaa7e31.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&${search} `).then(
@@ -65,7 +66,8 @@ function Home() {
   }
 
 
-React.useEffect(() => {//преобразует текущий url  в параметры объекта, диспатчит   в redux - как только параметры именились -fetch делает запрос 2 раз
+
+React.useEffect(() => {
 
   if (window.location.search) {
 
@@ -98,7 +100,7 @@ React.useEffect(() => {
 
   isSearch.current = false
 
-}, [categoryId, sort, currentPage, searchValue])
+}, [categoryId, sort, currentPage, currentSearch])
 
 
 

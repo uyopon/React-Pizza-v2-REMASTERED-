@@ -7,6 +7,7 @@ import { createSlice,createAsyncThunk,} from '@reduxjs/toolkit'
 const initialState = {
   categoryId: 0,
   currentPage:1,
+  currentSearch : '',
   
   sort: {
     name: 'популярности',
@@ -22,6 +23,11 @@ export const filterSlice = createSlice({
     setCategory(state, action) {
       state.categoryId = action.payload
     },
+
+    setCurrentSearch(state, action) {
+      state.currentSearch=  action.payload
+    },
+
     setSortBy(state, action) {
       state.sort=  action.payload
     },
@@ -38,6 +44,6 @@ export const filterSlice = createSlice({
 })
 
 
-export const { setCategory, setSortBy,setCurrentPage,setfilters} = filterSlice.actions
+export const { setCategory, setSortBy,setCurrentPage,setfilters,setCurrentSearch} = filterSlice.actions
 
 export default filterSlice.reducer
