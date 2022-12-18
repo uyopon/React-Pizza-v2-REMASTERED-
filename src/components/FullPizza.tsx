@@ -3,15 +3,15 @@ import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 
+// fc = funtional  component
 
-
-function FullPizza() {
+const  FullPizza : React.FC = ()=> {
 
   const navigate = useNavigate()
 
   const { id } = useParams()
 
-  const [pizza, setPizza] = React.useState()
+  const [pizza, setPizza] = React.useState<{imageUrl: string, title:string,price:number}>()
 
 
   React.useEffect(() => {
@@ -39,7 +39,7 @@ function FullPizza() {
 
   }, [])
 
-  if (!pizza) { return 'загрузка...' }
+  if (!pizza) { return  <>'загрузка...'</> }
 
   return (
 

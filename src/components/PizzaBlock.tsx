@@ -7,7 +7,9 @@ import { Link } from 'react-router-dom'
 const typeNames = ['тонкое','традиционное']
 const sizesValues = [26,30,40]
 
-function PizzaBlock({id,imageUrl, title,types,sizes,price,category,rating}) {
+type PizzaBlockProps = {id:string,imageUrl:string, title:string,types:number[],sizes:number[],price:number,category:any,rating:number}
+
+const  PizzaBlock:React.FC<PizzaBlockProps> = ({id,imageUrl, title,types,sizes,price,category,rating}) =>{
 
     const cartItem = useSelector(({cart})=>cart.items.find(obj=>obj.id===id))
 

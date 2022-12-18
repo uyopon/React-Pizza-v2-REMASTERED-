@@ -8,7 +8,7 @@ import { setCurrentSearch } from '../../redux/slices/filterSlice'
 
 
 
-function Search() {
+const Search: React.FC = ()=> {
 
   const dispatch = useDispatch()
 
@@ -21,13 +21,16 @@ function Search() {
 
   
 
-  const inputRef = React.useRef()
+  const inputRef = React.useRef<HTMLInputElement>(null)
 
   const onClickClear = () => {
     // setSearchValue('')
     dispatch(setCurrentSearch(''))
     setValue('')
-    inputRef.current.focus()
+
+    inputRef.current?.focus()
+
+    
 
   }
 

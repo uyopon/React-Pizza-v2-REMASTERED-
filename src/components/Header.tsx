@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom';
 
 
-function Header() {
+const Header:React.FC=()=> {
 
 
 const location = useLocation()
@@ -61,7 +61,7 @@ const location = useLocation()
                 strokeLinejoin="round"
               />
             </svg>
-            <span>{items.reduce((k,obj)=> k+obj.count,0 )}</span>
+            <span>{items.reduce((count:number,obj:any)=> count+obj.count,0 )}</span>
           </Link>}
         </div>
       </div>

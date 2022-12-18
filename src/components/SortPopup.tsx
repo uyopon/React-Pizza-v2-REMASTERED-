@@ -12,7 +12,7 @@ export const names = [
     {name: 'алфавиту (DESC)',sortProperty: '-title'}
 ]
 
-function SortPopup() {
+const SortPopup=()=> {
 
     const dispatch = useDispatch() 
     

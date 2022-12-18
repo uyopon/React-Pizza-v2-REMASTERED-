@@ -1,9 +1,5 @@
 import { createSlice,createAsyncThunk,} from '@reduxjs/toolkit'
 
-
-
-
-
 const initialState = {
   categoryId: 0,
   currentPage:1,

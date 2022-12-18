@@ -8,7 +8,7 @@ import EmptyCart from '../components/EmptyCart'
 
 
 
-function Cart() {
+const Cart:React.FC = () =>{
 
   
 
@@ -59,13 +59,13 @@ function Cart() {
         </div>
         <div className="content__items">
           
-          {items.map(( obj)=> <  CartItem  key ={obj.id} {...obj}/> ) }
+          {items.map(( obj:any)=> <  CartItem  key ={obj.id} {...obj}/> ) }
           
 
         </div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">
-            <span> Всего пицц: <b>{items.reduce((sum,obj)=>sum+obj.count,0)} шт.</b> </span>
+            <span> Всего пицц: <b>{items.reduce((sum:number,obj:any)=>sum+obj.count,0)} шт.</b> </span>
             <span> Сумма заказа: <b>{totalPrice} ₽</b> </span>
           </div>
           <div className="cart__bottom-buttons">
