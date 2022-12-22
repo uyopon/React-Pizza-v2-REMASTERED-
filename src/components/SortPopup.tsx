@@ -23,14 +23,14 @@ const SortPopup=()=> {
     
     const [open,setOpen]= React.useState(false)
 
-    const onClickName2= (obj)=> {
+    const onClickName2= (obj:any)=> {
         dispatch(setSortBy(obj))
         setOpen(false)
 
     }
 
     React.useEffect(()=>{
-        const handleClickOutsde = event=>{
+        const handleClickOutsde = (event: any)=>{
             if(!event.path.includes(sortRef.current)){setOpen(false)}
         }
         document.body.addEventListener('click', handleClickOutsde)

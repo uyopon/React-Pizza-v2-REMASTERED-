@@ -18,16 +18,16 @@ const CartItem: React.FC<CartItemProps> = ({ imageUrl, title, price, count, type
 
   const dispatch = useDispatch()
 
-  const onPLusItem = (id) => {
+  const onPLusItem = (id:string) => {
     dispatch(plusItem(id))
   }
 
-  const onMinusItem = (id) => {
+  const onMinusItem = (id:string) => {
     dispatch(minusItem(id))
   }
 
 
-  const onRemove = (id) => {
+  const onRemove = (id:string) => {
 
     dispatch(removeItem(id))
   }

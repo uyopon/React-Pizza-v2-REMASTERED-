@@ -4,7 +4,7 @@ import React from 'react'
 const categories = ['Все','Мясные','Вегетарианская','Гриль','Острые','Закрытые',]
 
 
-type CategoriesProps = {onClickCategory: any, categoryId: number,}
+type CategoriesProps = {onClickCategory: (i:number)=>void, categoryId: number,}
 
 
 const Categories : React.FC<CategoriesProps>=({onClickCategory,categoryId})=> {
@@ -22,3 +22,6 @@ const Categories : React.FC<CategoriesProps>=({onClickCategory,categoryId})=> {
     )
 }
 export default Categories
+
+
+
